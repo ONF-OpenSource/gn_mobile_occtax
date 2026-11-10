@@ -6,11 +6,12 @@ import fr.geonature.commons.data.entity.Taxon
 import fr.geonature.commons.data.entity.Taxonomy
 import fr.geonature.commons.features.nomenclature.data.INomenclatureLocalDataSource
 import fr.geonature.commons.util.add
-import fr.geonature.datasync.api.IGeoNatureAPIClient
-import fr.geonature.datasync.api.model.AuthLogin
-import fr.geonature.datasync.api.model.AuthUser
-import fr.geonature.datasync.auth.IAuthManager
-import fr.geonature.datasync.auth.error.AuthException
+import fr.geonature.api.IGeoNatureAPIClient
+import fr.geonature.api.model.AuthLogin
+import fr.geonature.api.model.AuthUser
+import fr.geonature.auth.IAuthManager
+import fr.geonature.auth.error.AuthException
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.datasync.settings.DataSyncSettings
 import fr.geonature.datasync.settings.error.DataSyncSettingsNotFoundException
 import fr.geonature.maps.settings.LayerSettings
@@ -269,10 +270,10 @@ class SynchronizeObservationRecordRepositoryTest {
 
             // and an app settings
             val appSettings = AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -354,10 +355,10 @@ class SynchronizeObservationRecordRepositoryTest {
 
         // and an app settings
         val appSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",
@@ -477,10 +478,10 @@ class SynchronizeObservationRecordRepositoryTest {
 
         // and an app settings
         val appSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",

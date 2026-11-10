@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import fr.geonature.datasync.auth.ICookieManager
+import fr.geonature.api.auth.ICookieManager
 import javax.inject.Singleton
 
 /**

@@ -1,6 +1,7 @@
 package fr.geonature.occtax.features.settings.domain
 
 import android.os.Parcel
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.datasync.settings.DataSyncSettings
 import fr.geonature.maps.settings.LayerSettings
 import fr.geonature.maps.settings.MapSettings
@@ -26,11 +27,11 @@ class AppSettingsTest {
     fun `should build AppSettings from Builder`() {
         assertEquals(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 areaObservationDuration = 365,
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -130,6 +131,7 @@ class AppSettingsTest {
                 )
             ),
             AppSettings.Builder()
+                .authSettings(AuthSettings(applicationId = 3))
                 .areaObservationDuration(365)
                 .dataSyncSettings(
                     DataSyncSettings
@@ -138,7 +140,6 @@ class AppSettingsTest {
                             geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                             taxHubServerUrl = "https://demo.geonature.fr/taxhub"
                         )
-                        .applicationId(3)
                         .usersListId(1)
                         .taxrefListId(100)
                         .codeAreaType("M10")
@@ -252,11 +253,11 @@ class AppSettingsTest {
     fun `should copy AppSettings instance from Builder`() {
         // given a AppSettings instance to copy
         val expectedAppSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             areaObservationDuration = 365,
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",
@@ -373,11 +374,11 @@ class AppSettingsTest {
     fun `should create AppSettings from Parcelable`() {
         // given an AppSettings instance
         val expectedAppSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             areaObservationDuration = 365,
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",

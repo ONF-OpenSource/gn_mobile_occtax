@@ -1,6 +1,7 @@
 package fr.geonature.occtax.features.settings.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.datasync.settings.DataSyncSettings
 import fr.geonature.maps.settings.LayerSettings
 import fr.geonature.maps.settings.MapSettings
@@ -54,10 +55,10 @@ class AppSettingsRepositoryTest {
     fun `should load default app settings`() = runTest {
         // given app settings from local data source
         val existingAppSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",
@@ -98,10 +99,10 @@ class AppSettingsRepositoryTest {
     fun `should load app settings from existing one`() = runTest {
         // given app settings from local data source
         val originalAppSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",
@@ -121,6 +122,7 @@ class AppSettingsRepositoryTest {
         // with additional one
         val expectedAppSettings = AppSettings.Builder()
             .from(originalAppSettings)
+            .authSettings(AuthSettings(applicationId = 3))
             .mapSettings(
                 MapSettings.Builder()
                     .from(originalAppSettings.mapSettings)

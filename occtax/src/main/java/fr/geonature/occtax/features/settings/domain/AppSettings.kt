@@ -1,6 +1,7 @@
 package fr.geonature.occtax.features.settings.domain
 
 import android.os.Parcelable
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.datasync.settings.DataSyncSettings
 import fr.geonature.maps.settings.MapSettings
 import fr.geonature.occtax.features.settings.error.AppSettingsException
@@ -13,6 +14,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class AppSettings(
+    val authSettings: AuthSettings,
     val areaObservationDuration: Int = Builder().areaObservationDuration,
     val inputSettings: InputSettings = Builder().inputSettings,
     val dataSyncSettings: DataSyncSettings,
@@ -36,6 +38,11 @@ data class AppSettings(
             private set
 
         /**
+         * Authentication settings.
+         */
+        private var authSettings: AuthSettings? = null
+
+        /**
          * Data synchronization settings.
          */
         private var dataSyncSettings: DataSyncSettings? = null
@@ -57,12 +64,16 @@ data class AppSettings(
             apply {
                 if (appSettings == null) return@apply
 
+                this.authSettings = appSettings.authSettings
                 this.areaObservationDuration = appSettings.areaObservationDuration
                 this.inputSettings = appSettings.inputSettings
                 this.dataSyncSettings = appSettings.dataSyncSettings
                 this.mapSettings = appSettings.mapSettings
                 this.nomenclatureSettings = appSettings.nomenclatureSettings
             }
+
+        fun authSettings(authSettings: AuthSettings) =
+            apply { this.authSettings = authSettings }
 
         fun areaObservationDuration(areaObservationDuration: Int) =
             apply { this.areaObservationDuration = areaObservationDuration }
@@ -83,12 +94,15 @@ data class AppSettings(
          * Builds a new instance of [AppSettings].
          */
         fun build(): AppSettings {
+            val authSettings = this.authSettings
+                ?: throw AppSettingsException.MissingAttributeException("auth")
             val dataSyncSettings = this.dataSyncSettings
                 ?: throw AppSettingsException.MissingAttributeException("sync")
             val mapSettings =
                 this.mapSettings ?: throw AppSettingsException.MissingAttributeException("map")
 
             return AppSettings(
+                authSettings,
                 this.areaObservationDuration,
                 this.inputSettings,
                 dataSyncSettings,

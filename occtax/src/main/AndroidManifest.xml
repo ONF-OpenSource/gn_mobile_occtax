@@ -37,7 +37,7 @@
             android:exported="false"
             android:label="@string/activity_configure_server_settings_title" />
         <activity
-            android:name="fr.geonature.datasync.ui.login.LoginActivity"
+            android:name="fr.geonature.auth.login.ui.LoginActivity"
             android:label="@string/activity_login_title"
             android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustPan" />

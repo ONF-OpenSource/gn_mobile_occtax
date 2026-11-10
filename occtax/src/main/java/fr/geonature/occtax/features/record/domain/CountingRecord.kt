@@ -1,7 +1,7 @@
 package fr.geonature.occtax.features.record.domain
 
 import android.os.Parcelable
-import fr.geonature.datasync.api.model.Media
+import fr.geonature.api.model.Media
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.util.SortedMap
@@ -182,7 +182,7 @@ sealed class MediaRecord : Parcelable {
      * As [Media] (i.e. already synchronized media from _GeoNature_).
      */
     @Parcelize
-    data class Media(val media: fr.geonature.datasync.api.model.Media) : MediaRecord()
+    data class Media(val media: fr.geonature.api.model.Media) : MediaRecord()
 
     /**
      * As local file.

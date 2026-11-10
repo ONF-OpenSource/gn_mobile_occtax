@@ -67,7 +67,7 @@ class FormFieldRadioViewHolder(
                 AbstractViewHolder(itemView) {
 
                 private val radioButton: RadioButton =
-                    itemView.findViewById<RadioButton?>(android.R.id.checkbox)
+                    itemView.findViewById<RadioButton>(android.R.id.checkbox)
                         .apply {
                             setOnClickListener { view ->
                                 formField?.run {

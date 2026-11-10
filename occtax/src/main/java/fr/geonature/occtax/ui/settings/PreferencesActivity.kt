@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import fr.geonature.commons.fp.orNull
 import fr.geonature.compat.content.getParcelableExtraCompat
-import fr.geonature.datasync.api.IGeoNatureAPIClient
+import fr.geonature.api.IGeoNatureAPIClient
 import fr.geonature.datasync.settings.DataSyncSettingsViewModel
 import fr.geonature.occtax.features.settings.domain.AppSettings
 

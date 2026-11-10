@@ -2,6 +2,9 @@ package fr.geonature.occtax.features.settings.io
 
 import android.util.JsonReader
 import android.util.JsonToken
+import android.util.JsonWriter
+import fr.geonature.auth.settings.domain.AuthSettings
+import fr.geonature.auth.settings.io.AuthSettingsJsonReader
 import fr.geonature.commons.util.nextBooleanOrElse
 import fr.geonature.datasync.settings.io.DataSyncSettingsJsonReader
 import fr.geonature.maps.settings.io.MapSettingsReader
@@ -14,6 +17,7 @@ import fr.geonature.occtax.features.settings.error.AppSettingsException
 import org.tinylog.Logger
 import java.io.Reader
 import java.io.StringReader
+import java.io.StringWriter
 
 /**
  * Default [JsonReader] about reading a `JSON` stream and build the corresponding [AppSettings]
@@ -53,12 +57,18 @@ class AppSettingsJsonReader(private val fromExistingAppSettings: AppSettings? = 
     private fun read(reader: JsonReader): AppSettings {
         val builder = AppSettings.Builder()
         fromExistingAppSettings?.also { builder.from(it) }
+        var authSettings: AuthSettings? = null
+        var syncJson: String? = null
 
         runCatching {
             reader.beginObject()
 
             while (reader.hasNext()) {
                 when (reader.nextName()) {
+                    "auth" -> {
+                        authSettings = AuthSettingsJsonReader(fromExistingAppSettings?.authSettings).read(reader)
+                        builder.authSettings(authSettings)
+                    }
                     "area_observation_duration" -> builder.areaObservationDuration(reader.nextInt())
                     "input" -> builder.inputSettings(readInputSettings(reader).let {
                         if (it == InputSettings(dateSettings = InputDateSettings.DEFAULT) && fromExistingAppSettings?.inputSettings != it) (fromExistingAppSettings?.inputSettings
@@ -66,7 +76,7 @@ class AppSettingsJsonReader(private val fromExistingAppSettings: AppSettings? = 
                         else it
                     })
 
-                    "sync" -> builder.dataSyncSettings(DataSyncSettingsJsonReader(fromExistingAppSettings?.dataSyncSettings).read(reader))
+                    "sync" -> syncJson = copyValueAsString(reader)
                     "map" -> builder.mapSettings(MapSettingsReader(fromExistingAppSettings?.mapSettings).read(reader))
                     "nomenclature" -> readNomenclatureSettings(reader)?.also { builder.nomenclatureSettings(it) }
                     else -> reader.skipValue()
@@ -74,6 +84,18 @@ class AppSettingsJsonReader(private val fromExistingAppSettings: AppSettings? = 
             }
 
             reader.endObject()
+
+            // 'sync' may also hold the auth settings (e.g. 'sync.gn_application_id'): read it twice
+            syncJson?.also { sync ->
+                if (authSettings == null) {
+                    runCatching {
+                        AuthSettingsJsonReader(fromExistingAppSettings?.authSettings).read(JsonReader(StringReader(sync)))
+                    }.onSuccess { builder.authSettings(it) }
+                        .onFailure { it.message?.also { message -> Logger.warn { message } } }
+                }
+
+                builder.dataSyncSettings(DataSyncSettingsJsonReader(fromExistingAppSettings?.dataSyncSettings).read(JsonReader(StringReader(sync))))
+            }
         }.onFailure {
             it.message?.also { Logger.warn { it } }
 
@@ -81,6 +103,42 @@ class AppSettingsJsonReader(private val fromExistingAppSettings: AppSettings? = 
         }
 
         return builder.build()
+    }
+
+    private fun copyValueAsString(reader: JsonReader): String {
+        val out = StringWriter()
+        val writer = JsonWriter(out)
+        writer.isLenient = true
+        var depth = 0
+
+        do {
+            when (reader.peek()) {
+                JsonToken.BEGIN_OBJECT -> { reader.beginObject(); writer.beginObject(); depth++ }
+                JsonToken.END_OBJECT -> { reader.endObject(); writer.endObject(); depth-- }
+                JsonToken.BEGIN_ARRAY -> { reader.beginArray(); writer.beginArray(); depth++ }
+                JsonToken.END_ARRAY -> { reader.endArray(); writer.endArray(); depth-- }
+                JsonToken.NAME -> writer.name(reader.nextName())
+                JsonToken.STRING -> writer.value(reader.nextString())
+                JsonToken.NUMBER -> writer.value(NumberString(reader.nextString()))
+                JsonToken.BOOLEAN -> writer.value(reader.nextBoolean())
+                JsonToken.NULL -> { reader.nextNull(); writer.nullValue() }
+                else -> reader.skipValue()
+            }
+        } while (depth > 0)
+
+        writer.flush()
+
+        return out.toString()
+    }
+
+    private class NumberString(private val value: String) : Number() {
+        override fun toByte() = value.toDouble().toInt().toByte()
+        override fun toDouble() = value.toDouble()
+        override fun toFloat() = value.toFloat()
+        override fun toInt() = value.toDouble().toInt()
+        override fun toLong() = value.toDouble().toLong()
+        override fun toShort() = value.toDouble().toInt().toShort()
+        override fun toString() = value
     }
 
     private fun readInputSettings(reader: JsonReader): InputSettings {

@@ -3,6 +3,7 @@ package fr.geonature.occtax.features.settings.data
 import android.content.Context
 import android.os.Environment
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.commons.util.getFile
 import fr.geonature.commons.util.getPrimaryExternalStorage
 import fr.geonature.datasync.settings.DataSyncSettings
@@ -108,11 +109,11 @@ class AppSettingsFileLocalDataSourceTest {
         // then
         assertEquals(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 areaObservationDuration = 365,
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/geonature/api/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -239,11 +240,11 @@ class AppSettingsFileLocalDataSourceTest {
         // when loading app settings from local data source using existing one
         val appSettings = appSettingsLocalDataSource.load(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 areaObservationDuration = 365,
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -347,11 +348,11 @@ class AppSettingsFileLocalDataSourceTest {
         // then
         assertEquals(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 areaObservationDuration = 365,
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",

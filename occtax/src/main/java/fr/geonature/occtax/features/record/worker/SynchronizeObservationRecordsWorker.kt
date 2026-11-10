@@ -14,8 +14,8 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import fr.geonature.datasync.api.error.BaseApiException
-import fr.geonature.datasync.auth.error.AuthException
+import fr.geonature.api.error.BaseApiException
+import fr.geonature.auth.error.AuthException
 import fr.geonature.datasync.sync.ServerStatus
 import fr.geonature.occtax.features.record.domain.ObservationRecord
 import fr.geonature.occtax.features.record.domain.SynchronizationStatus

@@ -28,7 +28,7 @@ import fr.geonature.commons.data.helper.ProviderHelper.buildUri
 import fr.geonature.compat.content.getParcelableArrayExtraCompat
 import fr.geonature.compat.content.getParcelableExtraCompat
 import fr.geonature.compat.os.getParcelableCompat
-import fr.geonature.datasync.api.IGeoNatureAPIClient
+import fr.geonature.api.IGeoNatureAPIClient
 import fr.geonature.datasync.features.settings.presentation.ConfigureServerSettingsDialogFragment
 import fr.geonature.maps.settings.MapSettings
 import fr.geonature.maps.util.MapSettingsPreferencesUtils

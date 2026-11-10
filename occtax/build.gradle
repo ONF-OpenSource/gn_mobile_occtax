@@ -68,6 +68,17 @@ android {
     }
 }
 
+// Hilt's annotation processor bundles an older kotlin-metadata-jvm: force the one matching our Kotlin version
+// (applies to ksp, annotationProcessor and the Hilt aggregating compile task classpaths)
+// remove this once Hilt updates to a newer kotlin-metadata-jvm version
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == "org.jetbrains.kotlin" && details.requested.name == "kotlin-metadata-jvm") {
+            details.useVersion libs.versions.kotlin.get()
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

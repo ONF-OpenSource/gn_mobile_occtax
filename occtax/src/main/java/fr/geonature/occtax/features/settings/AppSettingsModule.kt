@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import fr.geonature.datasync.settings.AppSettingsFilename
+import fr.geonature.commons.settings.AppSettingsFilename
 import fr.geonature.occtax.features.settings.data.AppSettingsFileLocalDataSourceImpl
 import fr.geonature.occtax.features.settings.data.IAppSettingsLocalDataSource
 import fr.geonature.occtax.features.settings.domain.AppSettings

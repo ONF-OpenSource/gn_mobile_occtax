@@ -67,7 +67,7 @@ class FormFieldCheckboxViewHolder(
                 AbstractViewHolder(itemView) {
 
                 private val checkbox: CheckBox =
-                    itemView.findViewById<CheckBox?>(android.R.id.checkbox)
+                    itemView.findViewById<CheckBox>(android.R.id.checkbox)
                         .apply {
                             setOnClickListener { view ->
                                 formField

@@ -2,9 +2,9 @@ package fr.geonature.occtax.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import fr.geonature.commons.util.add
-import fr.geonature.datasync.api.error.BaseApiException
-import fr.geonature.datasync.api.error.MissingConfigurationException
-import fr.geonature.datasync.auth.ICookieManager
+import fr.geonature.api.error.BaseApiException
+import fr.geonature.api.error.MissingConfigurationException
+import fr.geonature.api.auth.ICookieManager
 import fr.geonature.occtax.CoroutineTestRule
 import fr.geonature.occtax.FixtureHelper.getFixture
 import io.mockk.MockKAnnotations.init

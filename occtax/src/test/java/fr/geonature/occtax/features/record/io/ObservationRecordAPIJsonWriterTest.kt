@@ -1,5 +1,6 @@
 package fr.geonature.occtax.features.record.io
 
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.commons.data.entity.Taxon
 import fr.geonature.commons.data.entity.Taxonomy
 import fr.geonature.commons.util.toDate
@@ -259,10 +260,10 @@ class ObservationRecordAPIJsonWriterTest {
                     taxa.selectedTaxonRecord = null
                 },
                 AppSettings(
+                    authSettings = AuthSettings(applicationId = 3),
                     dataSyncSettings = DataSyncSettings(
                         geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                         taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                        applicationId = 3,
                         usersListId = 1,
                         taxrefListId = 100,
                         codeAreaType = "M10",
@@ -334,10 +335,10 @@ class ObservationRecordAPIJsonWriterTest {
         val json = ObservationRecordAPIJsonWriter().write(
             observationRecord,
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -392,10 +393,10 @@ class ObservationRecordAPIJsonWriterTest {
         val json = ObservationRecordAPIJsonWriter().write(
             observationRecord,
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -461,10 +462,10 @@ class ObservationRecordAPIJsonWriterTest {
         val json = ObservationRecordAPIJsonWriter().write(
             observationRecord,
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -521,10 +522,10 @@ class ObservationRecordAPIJsonWriterTest {
         val json = ObservationRecordAPIJsonWriter().write(
             observationRecord,
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",

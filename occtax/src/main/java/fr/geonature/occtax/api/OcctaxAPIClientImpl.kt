@@ -1,8 +1,8 @@
 package fr.geonature.occtax.api
 
-import fr.geonature.datasync.api.createServiceClient
-import fr.geonature.datasync.api.error.MissingConfigurationException
-import fr.geonature.datasync.auth.ICookieManager
+import fr.geonature.api.createServiceClient
+import fr.geonature.api.error.MissingConfigurationException
+import fr.geonature.api.auth.ICookieManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody

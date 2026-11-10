@@ -5,7 +5,8 @@ import fr.geonature.commons.data.entity.Taxon
 import fr.geonature.commons.data.entity.Taxonomy
 import fr.geonature.commons.util.add
 import fr.geonature.commons.util.toDate
-import fr.geonature.datasync.auth.ICookieManager
+import fr.geonature.api.auth.ICookieManager
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.datasync.settings.DataSyncSettings
 import fr.geonature.maps.settings.LayerSettings
 import fr.geonature.maps.settings.MapSettings
@@ -126,10 +127,10 @@ class ObservationRecordRemoteDataSourceTest {
         val observationRecordUpdated = observationRecordRemoteDataSource.sendObservationRecord(
             observationRecord,
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -221,10 +222,10 @@ class ObservationRecordRemoteDataSourceTest {
                 observationRecordRemoteDataSource.sendObservationRecord(
                     observationRecord,
                     AppSettings(
+                        authSettings = AuthSettings(applicationId = 3),
                         dataSyncSettings = DataSyncSettings(
                             geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                             taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                            applicationId = 3,
                             usersListId = 1,
                             taxrefListId = 100,
                             codeAreaType = "M10",
@@ -370,10 +371,10 @@ class ObservationRecordRemoteDataSourceTest {
             observationRecordRemoteDataSource.sendTaxaRecords(
                 observationRecord,
                 AppSettings(
+                    authSettings = AuthSettings(applicationId = 3),
                     dataSyncSettings = DataSyncSettings(
                         geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                         taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                        applicationId = 3,
                         usersListId = 1,
                         taxrefListId = 100,
                         codeAreaType = "M10",
@@ -440,10 +441,10 @@ class ObservationRecordRemoteDataSourceTest {
                 observationRecordRemoteDataSource.sendTaxaRecords(
                     observationRecord,
                     AppSettings(
+                        authSettings = AuthSettings(applicationId = 3),
                         dataSyncSettings = DataSyncSettings(
                             geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                             taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                            applicationId = 3,
                             usersListId = 1,
                             taxrefListId = 100,
                             codeAreaType = "M10",
@@ -511,10 +512,10 @@ class ObservationRecordRemoteDataSourceTest {
                 observationRecordRemoteDataSource.sendTaxaRecords(
                     observationRecord,
                     AppSettings(
+                        authSettings = AuthSettings(applicationId = 3),
                         dataSyncSettings = DataSyncSettings(
                             geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                             taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                            applicationId = 3,
                             usersListId = 1,
                             taxrefListId = 100,
                             codeAreaType = "M10",

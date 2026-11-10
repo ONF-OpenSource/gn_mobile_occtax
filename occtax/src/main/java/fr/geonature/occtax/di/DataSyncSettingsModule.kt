@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import fr.geonature.commons.data.GeoNatureModuleName
-import fr.geonature.datasync.settings.AppSettingsFilename
+import fr.geonature.commons.settings.AppSettingsFilename
 import javax.inject.Singleton
 
 /**

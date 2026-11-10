@@ -1,5 +1,6 @@
 package fr.geonature.occtax.features.settings.io
 
+import fr.geonature.auth.settings.domain.AuthSettings
 import fr.geonature.datasync.settings.DataSyncSettings
 import fr.geonature.maps.settings.LayerSettings
 import fr.geonature.maps.settings.MapSettings
@@ -43,11 +44,11 @@ class AppSettingsJsonReaderTest {
         assertNotNull(appSettings)
         assertEquals(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 areaObservationDuration = 365,
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/geonature/api/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -151,14 +152,70 @@ class AppSettingsJsonReaderTest {
     }
 
     @Test
-    fun `should read app settings from JSON file with unknown properties`() {
-        // when read a JSON as AppSettings with unknown properties
+    fun `should read app settings from JSON file with legacy properties`() {
+        // when read a JSON as AppSettings with legacy properties
         val appSettings = AppSettingsJsonReader().read(
             """{
                 "sync": {
                     "geonature_url": "https://demo.geonature.fr/geonature",
                     "taxhub_url": "https://demo.geonature.fr/taxhub",
                     "gn_application_id": 3,
+                    "observers_list_id": 1,
+                    "taxa_list_id": 100,
+                    "code_area_type": "M10",
+                    "page_size": 1000,
+                    "sync_periodicity_data_essential": "20m",
+                    "sync_periodicity_data": "30m"
+                },
+                "map": {
+                    "layers": [
+                        {
+                          "label": "OSM",
+                          "source": "https://a.tile.openstreetmap.org"
+                        }
+                    ]
+                }
+            }""".trimIndent()
+        )
+
+        // then
+        assertEquals(
+            AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
+                dataSyncSettings = DataSyncSettings(
+                    geoNatureServerUrl = "https://demo.geonature.fr/geonature",
+                    taxHubServerUrl = "https://demo.geonature.fr/taxhub",
+                    usersListId = 1,
+                    taxrefListId = 100,
+                    codeAreaType = "M10",
+                    pageSize = 1000,
+                    dataSyncPeriodicity = 30.toDuration(DurationUnit.MINUTES),
+                    essentialDataSyncPeriodicity = 20.toDuration(DurationUnit.MINUTES)
+                ),
+                mapSettings = MapSettings.Builder()
+                    .addLayer(
+                        LayerSettings.Builder.newInstance()
+                            .label("OSM")
+                            .addSource("https://a.tile.openstreetmap.org")
+                            .build()
+                    )
+                    .build()
+            ),
+            appSettings
+        )
+    }
+
+    @Test
+    fun `should read app settings from JSON file with unknown properties`() {
+        // when read a JSON as AppSettings with unknown properties
+        val appSettings = AppSettingsJsonReader().read(
+            """{
+                "auth": {
+                    "gn_application_id": 3
+                },
+                "sync": {
+                    "geonature_url": "https://demo.geonature.fr/geonature",
+                    "taxhub_url": "https://demo.geonature.fr/taxhub",
                     "observers_list_id": 1,
                     "taxa_list_id": 100,
                     "code_area_type": "M10",
@@ -181,10 +238,10 @@ class AppSettingsJsonReaderTest {
         // then
         assertEquals(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M10",
@@ -219,12 +276,44 @@ class AppSettingsJsonReaderTest {
 
     @Test
     fun `should throw MissingAttributeException if trying to read app settings from empty JSON`() {
+        assertThrows(
+            AppSettingsException.MissingAttributeException::class.java
+        ) {
+            AppSettingsJsonReader().read(StringReader("{}"))
+        }
+    }
+
+    @Test
+    fun `should throw MissingAttributeException if trying to read app settings from JSON with no 'auth' settings`() {
         assertEquals(
-            "missing 'sync' attribute configuration",
+            "missing 'auth' attribute configuration",
             assertThrows(
                 AppSettingsException.MissingAttributeException::class.java
             ) {
-                AppSettingsJsonReader().read(StringReader("{}"))
+                AppSettingsJsonReader().read(
+                    StringReader(
+                        """{
+                            "sync": {
+                                "geonature_url": "https://demo.geonature.fr/geonature",
+                                "taxhub_url": "https://demo.geonature.fr/taxhub",
+                                "observers_list_id": 1,
+                                "taxa_list_id": 100,
+                                "code_area_type": "M10",
+                                "page_size": 1000,
+                                "sync_periodicity_data_essential": "20m",
+                                "sync_periodicity_data": "30m"
+                            },
+                            "map": {
+                                "layers": [
+                                    {
+                                      "label": "OSM",
+                                      "source": "https://a.tile.openstreetmap.org"
+                                    }
+                                ]
+                            }
+                        }""".trimIndent()
+                    )
+                )
             }.message
         )
     }
@@ -236,7 +325,15 @@ class AppSettingsJsonReaderTest {
             assertThrows(
                 AppSettingsException.MissingAttributeException::class.java
             ) {
-                AppSettingsJsonReader().read(StringReader("{}"))
+                AppSettingsJsonReader().read(
+                    StringReader(
+                        """{
+                            "auth": {
+                                "gn_application_id": 3
+                            }
+                        }""".trimIndent()
+                    )
+                )
             }.message
         )
     }
@@ -686,10 +783,10 @@ class AppSettingsJsonReaderTest {
     fun `should override existing app settings from partial JSON file`() {
         // given an existing app settings
         val existingAppSettings = AppSettings(
+            authSettings = AuthSettings(applicationId = 3),
             dataSyncSettings = DataSyncSettings(
                 geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                 taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                applicationId = 3,
                 usersListId = 1,
                 taxrefListId = 100,
                 codeAreaType = "M10",
@@ -733,10 +830,10 @@ class AppSettingsJsonReaderTest {
         // then
         assertEquals(
             AppSettings(
+                authSettings = AuthSettings(applicationId = 3),
                 dataSyncSettings = DataSyncSettings(
                     geoNatureServerUrl = "https://demo.geonature.fr/geonature",
                     taxHubServerUrl = "https://demo.geonature.fr/taxhub",
-                    applicationId = 3,
                     usersListId = 1,
                     taxrefListId = 100,
                     codeAreaType = "M20",

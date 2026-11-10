@@ -3,10 +3,10 @@ package fr.geonature.occtax.features.record.repository
 import android.content.Context
 import fr.geonature.commons.data.entity.Nomenclature
 import fr.geonature.commons.features.nomenclature.data.INomenclatureLocalDataSource
-import fr.geonature.datasync.api.IGeoNatureAPIClient
-import fr.geonature.datasync.api.model.AuthUser
-import fr.geonature.datasync.auth.IAuthManager
-import fr.geonature.datasync.auth.error.AuthException
+import fr.geonature.api.IGeoNatureAPIClient
+import fr.geonature.api.model.AuthUser
+import fr.geonature.auth.IAuthManager
+import fr.geonature.auth.error.AuthException
 import fr.geonature.datasync.settings.error.DataSyncSettingsNotFoundException
 import fr.geonature.occtax.R
 import fr.geonature.occtax.features.record.data.IMediaRecordLocalDataSource
@@ -46,7 +46,7 @@ class SynchronizeObservationRecordRepositoryImpl(
         }
 
         val authUser = authManager.getAuthLogin()?.user
-            ?: return Result.failure(AuthException.NotConnectedException)
+            ?: return Result.failure(AuthException.NotConnectedException())
 
         val appSettings = appSettingsRepository.loadAppSettings()
             .let {

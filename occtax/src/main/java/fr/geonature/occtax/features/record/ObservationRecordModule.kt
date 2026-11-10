@@ -11,8 +11,8 @@ import fr.geonature.commons.features.nomenclature.data.INomenclatureLocalDataSou
 import fr.geonature.commons.features.taxon.data.ITaxonLocalDataSource
 import fr.geonature.commons.util.getFile
 import fr.geonature.commons.util.getPrimaryExternalStorage
-import fr.geonature.datasync.api.IGeoNatureAPIClient
-import fr.geonature.datasync.auth.IAuthManager
+import fr.geonature.api.IGeoNatureAPIClient
+import fr.geonature.auth.IAuthManager
 import fr.geonature.occtax.api.IOcctaxAPIClient
 import fr.geonature.occtax.features.record.data.IMediaRecordLocalDataSource
 import fr.geonature.occtax.features.record.data.IObservationRecordLocalDataSource

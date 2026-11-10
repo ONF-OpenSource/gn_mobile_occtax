@@ -46,8 +46,8 @@ import fr.geonature.commons.lifecycle.onError
 import fr.geonature.commons.lifecycle.onFailure
 import fr.geonature.commons.util.ThemeUtils.getErrorColor
 import fr.geonature.commons.util.add
-import fr.geonature.datasync.api.IGeoNatureAPIClient
-import fr.geonature.datasync.auth.AuthLoginViewModel
+import fr.geonature.api.IGeoNatureAPIClient
+import fr.geonature.auth.login.presentation.AuthLoginViewModel
 import fr.geonature.datasync.features.settings.presentation.ConfigureServerSettingsActivity
 import fr.geonature.datasync.features.settings.presentation.ConfigureServerSettingsViewModel
 import fr.geonature.datasync.features.settings.presentation.UpdateSettingsViewModel
@@ -55,13 +55,13 @@ import fr.geonature.datasync.packageinfo.PackageInfo
 import fr.geonature.datasync.packageinfo.PackageInfoViewModel
 import fr.geonature.datasync.packageinfo.error.PackageInfoNotFoundFailure
 import fr.geonature.datasync.packageinfo.error.PackageInfoNotFoundFromRemoteFailure
-import fr.geonature.datasync.settings.AppSettingsFilename
+import fr.geonature.commons.settings.AppSettingsFilename
 import fr.geonature.datasync.settings.error.DataSyncSettingsJsonParseFailure
 import fr.geonature.datasync.settings.error.DataSyncSettingsNotFoundFailure
 import fr.geonature.datasync.sync.DataSyncViewModel
 import fr.geonature.datasync.sync.ServerStatus
 import fr.geonature.datasync.sync.worker.DataSyncWorker
-import fr.geonature.datasync.ui.login.LoginActivity
+import fr.geonature.auth.login.ui.LoginActivity
 import fr.geonature.maps.ui.MapFragment
 import fr.geonature.maps.util.CheckPermissionLifecycleObserver
 import fr.geonature.maps.util.ManageExternalStoragePermissionLifecycleObserver

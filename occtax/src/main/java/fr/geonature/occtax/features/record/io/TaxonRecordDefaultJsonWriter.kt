@@ -2,7 +2,7 @@ package fr.geonature.occtax.features.record.io
 
 import android.util.JsonWriter
 import fr.geonature.commons.util.format
-import fr.geonature.datasync.api.model.Media
+import fr.geonature.api.model.Media
 import fr.geonature.occtax.features.record.domain.CountingRecord
 import fr.geonature.occtax.features.record.domain.MediaRecord
 import fr.geonature.occtax.features.record.domain.PropertyValue
