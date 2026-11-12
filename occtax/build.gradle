@@ -28,9 +28,9 @@ android {
 
     defaultConfig {
         applicationId "fr.geonature.occtax2"
-        compileSdk 34
+        compileSdk 36
         minSdkVersion 26
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 3372
         versionName "2.8.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

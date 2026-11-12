@@ -12,6 +12,7 @@ import fr.geonature.commons.util.getPrimaryExternalStorage
 import fr.geonature.datasync.sync.worker.DataSyncWorker
 import fr.geonature.mountpoint.util.MountPointUtils
 import fr.geonature.occtax.features.record.worker.CheckObservationRecordsToSynchronizeWorker
+import fr.geonature.occtax.ui.EdgeToEdgeCallbacks
 import fr.geonature.occtax.ui.home.HomeActivity
 import org.tinylog.Level
 import org.tinylog.Logger
@@ -31,6 +32,9 @@ class MainApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+
+        // register edge-to-edge enforcement callbacks
+        registerActivityLifecycleCallbacks(EdgeToEdgeCallbacks())
 
         configureLogger()
 

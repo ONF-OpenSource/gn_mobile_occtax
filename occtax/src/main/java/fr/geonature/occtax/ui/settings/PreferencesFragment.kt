@@ -277,7 +277,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                                         url
                                     )
 
-                                        serverSettingsPreference.summary = url
+                                    serverSettingsPreference.summary = url
 
                                     it.apply()
                                 }
@@ -327,19 +327,19 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
         preferenceScreen.findPreference<Preference?>(context.getString(R.string.preference_category_storage_internal_key))?.summary =
             MountPointUtils.getInternalStorage(preferenceScreen.context).mountPath.absolutePath
-        MountPointUtils
-            .getExternalStorage(
-                preferenceScreen.context,
-                Environment.MEDIA_MOUNTED,
-                Environment.MEDIA_MOUNTED_READ_ONLY
-            )
-            ?.also { mountPoint ->
-                preferenceScreen
-                    .findPreference<Preference?>(context.getString(R.string.preference_category_storage_external_key))
-                    ?.also {
-                        it.summary = mountPoint.mountPath.absolutePath
-                        it.isEnabled = true
-                    }
+
+        val externalMountPoint = MountPointUtils.getExternalStorage(
+            preferenceScreen.context,
+            Environment.MEDIA_MOUNTED,
+            Environment.MEDIA_MOUNTED_READ_ONLY
+        )
+
+        preferenceScreen
+            .findPreference<Preference?>(context.getString(R.string.preference_category_storage_external_key))
+            ?.also {
+                it.summary = externalMountPoint?.mountPath?.absolutePath
+                    ?: getString(fr.geonature.mountpoint.R.string.storage_status_not_available)
+                it.isEnabled = externalMountPoint != null
             }
     }
 
@@ -435,7 +435,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 )
 
         if (serverUrl.isNullOrBlank()) {
-           return
+            return
         }
 
         observationRecordViewModel.getAll()
@@ -445,7 +445,8 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             serverSettingsPreference.isEnabled = existingObservationRecords.isEmpty()
 
             if (!serverSettingsPreference.isEnabled) {
-                serverSettingsPreference.summary = "$serverUrl\n${serverSettingsPreference.context.getString(R.string.summary_warning_existing_inputs)}"
+                serverSettingsPreference.summary =
+                    "$serverUrl\n${serverSettingsPreference.context.getString(R.string.summary_warning_existing_inputs)}"
             }
         }
     }
